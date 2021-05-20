@@ -1,7 +1,8 @@
 package br.com.contacts.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import br.com.contacts.connection.ConnectionFactory;
 import br.com.contacts.model.entity.Person;
@@ -38,5 +39,10 @@ public class GenericDao<T extends Person> {
 		}catch (Exception e) {
 			manager.getTransaction().rollback();
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<T> listAll(Class<T> clazz){
+	    return (List<T>) manager.createQuery("select t from " + clazz.getName() + " t").getResultList();
 	}
 }
